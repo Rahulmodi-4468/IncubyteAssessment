@@ -28,16 +28,16 @@ public class AppTest {
 
         Assert.assertTrue(Add(emptyStr));
 
-        //Handle Unknown Amount of Numbers
+        /*Handle Unknown Amount of Numbers*/
         Assert.assertTrue(UnknownNumbers(unknownNums));
           //Assert.assertTrue(UnknownNumbers(EmptyStr));
 
-        //Handle newline Between  numbers
+        /*Handle newline Between numbers*/
         Assert.assertTrue(NewLineHandler(newLineHandler));
         Assert.assertTrue(NewLineHandler(newLineHandler1));
 
         /*Negative number not allowed*/
-        //Assert.assertTrue(NegativeNumbers(negNumber));
+        Assert.assertTrue(NegativeNumbers(negNumber));
 
         /*Number bigger than 1000 should be ignored */
         Assert.assertTrue(NegativeNumbers(beggerthan));
