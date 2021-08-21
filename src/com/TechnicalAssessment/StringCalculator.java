@@ -1,7 +1,7 @@
 package com.TechnicalAssessment;
 import java.util.StringTokenizer;
 
-public class Main {
+public class StringCalculator {
 
     static int num = 0,sum =0;
     public static void main(String[] args) {
