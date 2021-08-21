@@ -1,86 +1,99 @@
 package com.TechnicalAssessment;
-
-import java.util.Scanner;
 import java.util.StringTokenizer;
 
-import org.junit.*;
-import org.junit.Test;
 public class Main {
-    static  Scanner sc = new Scanner(System.in);
+
+    static int num = 0,sum =0;
     public static void main(String[] args) {
 	// write your code here
-
-        //Main calc = new Main();
-       // System.out.print("Enter Your String  : ");
-       // String input = sc.nextLine();
-
-
 
     }
 
 
-    @Test
-    static boolean Add(String numbers)
+    static int Add(String numbers)
     {
-        int sum = 0;                     //Initializing sum as 0
-        StringTokenizer tokens = new StringTokenizer(numbers,",|n"); //Tokenizing String to Iterate
+        sum = 0;
+        StringTokenizer tokens = new StringTokenizer(numbers,",|\n"); //Tokenizing String to Iterate
         int len = tokens.countTokens();   //length of numbers
+
         if(len == 0)                      //here Checking length is 0
         {
-            System.out.println("\n-----------------------\nTest Case  :- \nEmpty String : "+len);
-            return true;
+            System.out.println("\nEmpty String : "+ len);
+            return 0;
         }
         else if(len >= 1 && len <= 2){    //here checking length is upto 2
             int flag = 0;
             while(tokens.hasMoreTokens()) {   //Iterating token with hasMoreTokens() method of StringTokenizer
-                int num = 0;
+
                 try {
-                    num = Integer.parseInt(tokens.nextToken().trim());
-                    sum += num;         //This statement will never execute as exception is raised by above statement
-                    flag = 1;
+                    num = Integer.parseInt(tokens.nextToken());
+                    if (num < 0) {
+                        throw new NegativeValueException(num);  //throw NegativeValueException
+                    }
+                    else {
+                        sum += num;         //This statement will never execute as exception is raised by above statement
+                        flag = 1;
+                    }
                 }
                 catch(NumberFormatException ex)
                 {
                     System.out.println("We can catch the NumberFormatException ");
                 }
+                catch(NegativeValueException ex)
+                {
+                    System.out.println(ex);
+                }
             }
 
-            if(flag == 1) System.out.print("\n-----------------------\nTest Case  :- \nUpto two numbers & their 'sum=' : "+sum);
+            if(flag == 1) System.out.print("\nSum : "+sum);
 
-            return true;                        //return Addition of numbers
+            return sum;
 
         }
+        else{
+            sum=0;
+            while(tokens.hasMoreTokens()) {   //Iterating token with hasMoreTokens() method of StringTokenizer
+                num = 0;
 
-        return false;
-    }
-
-
-    @Test
-    static  boolean UnknownNumbers(String numbers)
-    {
-        int sum = 0;                     //Initializing sum as 0
-        StringTokenizer tokens = new StringTokenizer(numbers,","); //Tokenizing String to Iterate
-        int len = tokens.countTokens();   //length of numbers
-
-        if(len > 2) {   //length o number greater than 2
-            while (tokens.hasMoreTokens()) {   //Iterating token with hasMoreTokens() method of StringTokenizer
-                int num = 0;
                 num = Integer.parseInt(tokens.nextToken());
-                sum += num;
+
+                try{
+                    if (num < 0) {
+                        throw new NegativeValueException(num);  //throw NegativeValueException
+                    }
+                    else
+                    {
+                        sum += num;
+                    }
+                }
+                catch(NegativeValueException ex)
+                {
+                    System.out.println(ex);
+                }
+
+
             }
-            System.out.println("-----------------------\nTest Case  :- \nUnkown Amount of Numbers : " + sum);
-            return true;
+            System.out.println("\nSum : "+sum);
+            return sum;
         }
-        return false;
+
+
     }
 
-    @Test
-    static  boolean NewLineHandler(String numbers)
+
+    static int isSupportDifferentDelimiters(String numbers)
     {
-        StringTokenizer tokens = new StringTokenizer(numbers,",|n"); //Tokenizing String to Iterate
-        int flag =0,sum=0;;
+
+        char delim = numbers.charAt(2);
+        String delimS = Character.toString(delim);
+        String[] seprated = numbers.split("\n");
+        String mainStr = seprated[1];
+
+        StringTokenizer tokens = new StringTokenizer(mainStr,delimS); //Tokenizing String to Iterate
+        int flag =0;
+        sum=0;
         while(tokens.hasMoreTokens()) {   //Iterating token with hasMoreTokens() method of StringTokenizer
-            int num = 0;
+
             try {
                 num = Integer.parseInt(tokens.nextToken());
                 sum += num;         //This statement will never execute as exception is raised by above statement
@@ -88,49 +101,91 @@ public class Main {
             }
             catch(NumberFormatException ex)
             {
-                System.out.println("We can catch the NumberFormatException ");
+                System.out.println("\nWe can catch the NumberFormatException ");
             }
         }
 
-        if(flag == 1) System.out.print("\n-----------------------\nTest Case  :- \nHandle newline between numbers & their 'sum=' : "+sum);
+        if(flag == 1) System.out.println("Handle '"+delim+"' Delimiter & Their numbers 'sum=' : "+sum);
 
-        return true;                        //return Addition of numbers
+        return sum;                        //return Addition of numbers
 
     }
-    @Test
-    static boolean NegativeNumbers(String numbers) throws NegativeValueException  {
-        StringTokenizer tokens = new StringTokenizer(numbers, ","); //Tokenizing String to Iterate
-        int sum=0;
-        while (tokens.hasMoreTokens()) {
 
-            int num = Integer.parseInt(tokens.nextToken());
-            if (num < 0) {
-                throw new NegativeValueException(num);
-            }
-            else if (num >= 1000)
+    static int isIgnoreBiggerNumber(String numbers)
+    {
+        StringTokenizer tokens = new StringTokenizer(numbers, ","); //Tokenizing String to Iterate
+        sum=0;
+        while (tokens.hasMoreTokens()) {
+            num = 0;
+            num = Integer.parseInt(tokens.nextToken());
+
+            if (num >= 1000)
             {
                 num = 0;
-                sum += num;
             }
             else{
                 sum += num;
             }
         }
-        System.out.println("\n-----------------------\nTest Case  :- \nIgnored number bigger than 1000 : "+sum);
-        return true;
+        System.out.println("Thier Number's Sum :  "+sum);
+        return sum;
     }
 
+
+
+
+    static int deliWithLength(String numbers)
+    {
+        sum = 0;
+        String[] seprated = numbers.split("\n");
+        String mainStr = seprated[1];
+
+        for(int i=0;i<mainStr.length();i++)
+        {
+            char ch = mainStr.charAt(i);
+            if(ch == '*')
+            {
+                continue;
+            }
+            sum += Integer.parseInt(Character.toString(ch));
+        }
+        System.out.println("their numbers 'sum=' : "+ sum);
+        return sum;
+    }
+
+    static int allowMultipleDelimiters(String numbers)
+    {
+        sum = 0;
+
+        String[] seprated = numbers.split("\n");
+        String mainStr = seprated[1];
+
+
+        for(int i=0;i<mainStr.length();i++) {
+            char ch = mainStr.charAt(i);
+
+            if(!Character.isDigit(ch))
+            {
+                continue;
+            }
+            sum += Integer.parseInt(Character.toString(ch));
+        }
+        System.out.println("their numbers 'sum=' :"+ sum);
+        return sum;
+    }
 
 
 }
 
 class NegativeValueException extends Exception
 {
-    public NegativeValueException(){
-        super();
-    }
-    public NegativeValueException(int val)
+    int str;
+
+    NegativeValueException(int val)
     {
-        super("Negatives not allowed : " + val);
+        str = val;
+    }
+    public String toString(){
+        return("Negatives not allowed : "+str);
     }
 }
