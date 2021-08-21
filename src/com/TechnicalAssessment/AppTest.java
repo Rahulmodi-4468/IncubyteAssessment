@@ -2,7 +2,7 @@ package com.TechnicalAssessment;
 import org.junit.Assert;
 import org.junit.Test;
 
-import static com.TechnicalAssessment.Main.*;
+import static com.TechnicalAssessment.StringCalculator.*;
 
 
 public class AppTest {
